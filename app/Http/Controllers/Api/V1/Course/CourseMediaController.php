@@ -14,7 +14,7 @@ class CourseMediaController extends ApiController
     public function __construct(ICourseMediaService $service) {
         $this->service = $service;
     }
-    public function index(Request $request){
+    public function index(Request $request) {
         return $this->_index($request, $this->service);
     }
 
@@ -22,15 +22,15 @@ class CourseMediaController extends ApiController
         return $this->_store($request, $this->service);
     }
 
-    public function show(Request $request) {
-        return $this->_show($request, $this->service);
+    public function show(string $id) {
+        return $this->_show($id, $this->service);
+    }
+    
+    public function update(Request $request, string $id) {
+        return $this->_update($request, $this->service, id: $id);
     }
 
-    public function update(Request $request) {
-        return $this->_update($request, $this->service);        
-    }
-
-    public function destroy(Request $request) {
-        return $this->_destroy($request, $this->service);
+    public function destroy(string $id) {
+        return $this->_destroy($id, $this->service);
     }
 }

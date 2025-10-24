@@ -19,19 +19,21 @@ class CourseController extends ApiController
         return $this->_index($request, $this->service);
     }
 
-    public function show(Request $request) {
-        return $this->_show($request, $this->service);
-    }
-
     public function store(Request $request) {
         return $this->_store($request, $this->service);
     }
 
-    public function update(Request $request) {
-        return $this->_update($request, $this->service);
+
+    public function show(string $id) {
+        return $this->_show($id, $this->service);
     }
 
-    public function destroy(Request $request) {
-        return $this->_destroy($request, $this->service);
+    
+    public function update(Request $request, string $id) {
+        return $this->_update($request, $this->service, id: $id);
+    }
+
+    public function destroy(string $id) {
+        return $this->_destroy($id, $this->service);
     }
 }

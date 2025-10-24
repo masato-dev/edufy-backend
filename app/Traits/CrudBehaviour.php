@@ -57,18 +57,14 @@ trait CrudBehaviour {
         }
     }
 
-    public function _show(Request $request, IService $service, $customCriteria = [], $mergeCriteria = true, $customOptions = []) {
+    public function _show(Request | string | int $request, IService $service, $customOptions = []) {
         try {
-            $criteria = [];
-            if($mergeCriteria) {
-                $criteria = array_merge($request->except(['per_page', 'page']), $customCriteria);
-            } else {
-                $criteria = $customCriteria && count($customCriteria) > 0 ? $customCriteria : $request->except(['per_page', 'page']);
-            }
 
-            $item = $criteria && count($customCriteria) > 0
-                ? $service->getBy(array_merge(['id' => $request->route('id')], $criteria), $customOptions)->first()
-                : $service->getById($request->route('id'));
+            $id = (is_numeric($request) || is_string($request))
+                ? (int) $request
+                : (int) $request->route('id');
+
+            $item = $service->getById($id);
 
             if ($item) {
                 return $this->successResponse(__('Dữ liệu đã được lấy thành công'), $item);
@@ -98,9 +94,11 @@ trait CrudBehaviour {
         }
     }
 
-    public function _update(Request | FormRequest $request, IService $service, array $customData = [], bool $isMerge = false) {
+    public function _update(Request | FormRequest $request, IService $service, array $customData = [], bool $isMerge = false, int|string|null $id = null) {
         try {
-            $id = $request->route('id');
+            $id = (is_numeric($id) || is_string($id))
+                ? (int) $id
+                : (int) $request->route('id');
             $updated = null;
             if($isMerge)
                 $updated = $service->update($id, array_merge($request->all(), $customData));
@@ -118,9 +116,12 @@ trait CrudBehaviour {
         }
     }
 
-    public function _destroy(Request $request, IService $service) {
+    public function _destroy(Request | int | string $request, IService $service) {
         try {
-            $deleted = $service->delete($request->route('id'));
+            $id = (is_numeric($request) || is_string($request))
+                ? (int) $request
+                : (int) $request->route('id');
+            $deleted = $service->delete($id);
             return $deleted
                 ? $this->successResponse('Data deleted successfully')
                 : $this->errorResponse('Data not deleted', 400);
