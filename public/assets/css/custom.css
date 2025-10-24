@@ -1,0 +1,98 @@
+.sidebar-wrapper .sidebar-header img {
+    height: 7.2rem !important;
+    max-width: 100%;
+}
+#auth #auth-left .auth-logo img {
+    height: 15rem !important;
+    max-width: 100%;
+}
+.section-users-manager .pagination .page-item.disabled .page-link {
+    pointer-events: none;
+    opacity: 0.65;
+}
+.section-users-manager .pagination .page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.section-users-manager .pagination .page-link {
+    border-radius: 0.25rem;
+}
+
+.search-user-form {
+    position: relative;
+}
+
+.search-user-form i {
+    position: absolute;
+    top: 50%;
+    left: 14px;
+    transform: translateY(-50%);
+}
+
+.search-user-form .input-search {
+    padding-left: 32px !important;
+}
+
+.pagination {
+    justify-content: end;
+}
+
+.checkbox-status {
+    transform: scale(2);
+    accent-color: #3ac882;
+}
+
+.hiddenElement {
+    display: none !important;
+}
+
+#addStepBtn {
+    top: 10px;
+    position: sticky;
+    z-index: 1;
+}
+
+.treatment-step-box {
+    margin-top: 8px;
+    border-radius: 8px;
+    border: 1px solid #dee2e6;
+    position: relative;
+    padding: 16px 0;
+    margin-bottom: 16px;
+}
+
+.treatment-step-box .card {
+    margin-bottom: 0;
+}
+
+.treatment-step-box .card-body {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.btn-temp-delete {
+    margin: 8px;
+    right: 8px;
+    bottom: 8px;
+    position: absolute;
+}
+
+.choices__inner {
+    background-color: #fff !important;
+}
+
+.input-invalid {
+    color: #dc3545 !important;
+}
+
+.status-custom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 32px;
+    width: 32px;
+}
+
+.justify-item-center {
+    justify-items: center;
+}

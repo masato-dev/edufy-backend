@@ -1,0 +1,1 @@
+FilePond.registerPlugin(FilePondPluginImagePreview);
