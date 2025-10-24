@@ -44,7 +44,7 @@ trait CrudBehaviour {
             }
             $total = $service->count($criteria);
             $all = $criteria ? $service->getBy($criteria, $options) : $service->getAll($options);
-            $pageCount = $perpage > 0 ? ceil($total / $perpage) : 0;
+            $pageCount = $perpage > 0 ? ceil($total / $perpage) > 0 ? ($total / $perpage) : 1 : 1;
             return $this->successResponse(__('Dữ liệu đã được lấy thành công'), $all, 200, [
                 'total' => $total,
                 'page_count' => $pageCount,
@@ -118,7 +118,7 @@ trait CrudBehaviour {
         }
     }
 
-    public function _delete(Request $request, IService $service) {
+    public function _destroy(Request $request, IService $service) {
         try {
             $deleted = $service->delete($request->route('id'));
             return $deleted
