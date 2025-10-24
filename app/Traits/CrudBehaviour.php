@@ -1,7 +1,7 @@
 <?php
 namespace App\Traits;
 
-use App\Interfaces\Services\IService;
+use App\Services\Contracts\IService;
 use Exception;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
