@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Repositories\Contracts\Account;
+namespace App\Services\Contracts\Account;
 
-use App\Repositories\Contracts\IRepository;
+use App\Models\Admin;
+use App\Services\Contracts\IService;
+use Illuminate\Contracts\Cache\Repository;
 
-interface IAdminRepository extends IRepository
+interface IAdminRepository extends Repository
 {
-
+    public function resetPassword(Admin $admin): void;
 }
