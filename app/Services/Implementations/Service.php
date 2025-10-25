@@ -36,7 +36,11 @@ abstract class Service implements IService {
         return $this->repository->count($criteria);
     }
 
-    public function autoComplete(string $term, ?string $column = 'name', array $selectedColumns = ['*']) {
-        return $this->repository->autoComplete($term, $column, $selectedColumns);
+    public function autoComplete(string $term, ?string $column = 'name', array $selectedColumns = ['*'], array $options = []) {
+        return $this->repository->autoComplete($term, $column, $selectedColumns, $options);
+    }
+
+    public function autoCompleteCount(string $keyword, string|null $column = 'name'): int {
+        return $this->repository->autoCompleteCount($keyword, $column);
     }
 }

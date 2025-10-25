@@ -9,5 +9,6 @@ interface IRepository {
     public function createOrUpdate(array $criteria, array $data);
     public function delete(int $id, bool $softDelete = true);
     public function count(array $criteria = []): int;
-    public function autoComplete(string $term, ?string $column = 'name', array $selectedColumns = ['*']): \Illuminate\Database\Eloquent\Collection;
+    public function autoComplete(string $keyword, ?string $column = 'name', array $selectedColumns = ['*'], array $options = []);
+    public function autoCompleteCount(string $keyword, ?string $column = 'name'): int;
 }

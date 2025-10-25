@@ -12,6 +12,7 @@ use App\Services\Cache\CacheService;
 use Cache;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Log;
 
 abstract class Repository implements IRepository
@@ -22,7 +23,7 @@ abstract class Repository implements IRepository
         $this->model = $model;
     }
 
-    protected function handleQueryOption(Model|Builder $query, $options = [])
+    protected function handleQueryOption(Model|Builder|QueryBuilder $query, $options = [])
     {
         if (!empty($options['with'])) {
             $with = is_array($options['with']) ? $options['with'] : [$options['with']];
@@ -289,17 +290,27 @@ abstract class Repository implements IRepository
         return $this->model::query()->count();
     }
 
-    public function autoComplete(string $term, ?string $column = 'name', array $selectedColumns = ['*']): \Illuminate\Database\Eloquent\Collection
+    public function autoComplete(string $term, ?string $column = 'name', array $selectedColumns = ['*'], array $options = [])
     {
-        $limit = config('const.auto_complete.limit');
-        $query = $this->model->newQuery();
+        $query = $this->model->getQuery();
         $query->where($column, 'LIKE', "%{$term}%");
         $query->orderByRaw("CASE
             WHEN {$column} = ? THEN 1
             WHEN {$column} LIKE ? THEN 2
             ELSE 3
             END", [$term, "{$term}%"]);
-        $query->limit($limit);
-        return $query->get($selectedColumns);
+        $data = $this->handleQueryOption($query, $options);
+        return $data;
+    }
+
+    public function autoCompleteCount(string $keyword, string|null $column = 'name'): int {
+        $query = $this->model->getQuery();
+        $query->where($column, 'LIKE', "%{$keyword}%");
+        $query->orderByRaw("CASE
+            WHEN {$column} = ? THEN 1
+            WHEN {$column} LIKE ? THEN 2
+            ELSE 3
+            END", [$keyword, "{$keyword}%"]);
+        return $query->count();
     }
 }

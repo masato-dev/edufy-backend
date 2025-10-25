@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Slugable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Teacher extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Slugable;
 
     protected $fillable = [
         'training_center_id',
@@ -30,6 +31,8 @@ class Teacher extends Model
         'is_active' => 'boolean',
         'skills' => 'array',
     ];
+
+    protected $slugable = ['full_name'];
 
     public function trainingCenter(): BelongsTo
     {

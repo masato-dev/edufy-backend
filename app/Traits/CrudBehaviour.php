@@ -44,7 +44,7 @@ trait CrudBehaviour {
             }
             $total = $service->count($criteria);
             $all = $criteria ? $service->getBy($criteria, $options) : $service->getAll($options);
-            $pageCount = $perpage > 0 ? ceil($total / $perpage) > 0 ? ($total / $perpage) : 1 : 1;
+            $pageCount = $perpage > 0 ? ceil($total / $perpage) > 0 ? ceil($total / $perpage) : 1 : 1;
             return $this->successResponse(__('Dữ liệu đã được lấy thành công'), $all, 200, [
                 'total' => $total,
                 'page_count' => $pageCount,
@@ -131,7 +131,20 @@ trait CrudBehaviour {
         }
     }
 
-    // Helper methods to unify success and error responses.
+    public function _search(Request $request, IService $service){
+        $keyword = $request->get('keyword') ?? '';
+        $column = $request->get('column') ?? 'name';
+        $selectedColumns = explode(',', $request->get('selectedColumns'));
+        if(is_bool($selectedColumns))
+            $selectedColumns = ["*"];
+
+        $options = $this->getOptions($request);
+        $records = $service->autoComplete($keyword, $column, $selectedColumns, $options);
+        $total = $service->autoCompleteCount($keyword, $column);
+        $meta = $this->makePagination($request, $total);
+        return $this->successResponse("Tìm kiếm thành công", $records, 200, $meta);
+    }
+
     protected function successResponse(string $message, $data = null, $status = 200, $customData = []) {
         return response()->json(array_merge($customData, [
             'status' => true,
