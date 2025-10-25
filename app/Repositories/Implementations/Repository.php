@@ -81,8 +81,11 @@ abstract class Repository implements IRepository
 
 
         $data = $this->handleQueryOption($model, $options);
-        $eventInstance->setData($data);
-        event($eventInstance);
+
+        if($this instanceof ShouldCache) {
+            $eventInstance->setData($data);
+            event($eventInstance);
+        }
         return $data;
     }
 
@@ -115,8 +118,12 @@ abstract class Repository implements IRepository
         }
 
         $data = $this->model->find($id);
-        $eventInstance->setData($data);
-        event($eventInstance);
+
+        if($this instanceof ShouldCache) {
+            $eventInstance->setData($data);
+            event($eventInstance);
+        }
+        
         return $data;
     }
 
